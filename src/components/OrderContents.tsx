@@ -1,13 +1,14 @@
 import { formatCurrency } from "../helpers";
-import { MenuItem, OrderItem } from "../types"
+import { OrderActions } from "../reducers/order-reducer";
+import { OrderItem } from "../types"
 import { MdDelete } from "react-icons/md";
 
 type OrderContentsProps = {
     order: OrderItem[];
-    removeItem: (id: MenuItem['id']) => void;
+    dispatch: React.Dispatch<OrderActions>
 }
 
-const OrderContents = ({ order, removeItem }: OrderContentsProps) => {
+const OrderContents = ({ order, dispatch}: OrderContentsProps) => {
     return (
         <div className="mb-4">
             <h2 className="font-semibold text-xl mb-4">Consumo</h2>
@@ -26,7 +27,7 @@ const OrderContents = ({ order, removeItem }: OrderContentsProps) => {
                                     <p className="font-semibold">{formatCurrency(item.price * item.quantity)}</p>
                                 </div>
                             </div>
-                            <div onClick={() => removeItem(item.id)}>
+                            <div onClick={() => dispatch({type: 'remove-item', payload: {id: item.id}})}>
                                 <MdDelete color="rgb(239 68 68)" size={24} />
                             </div>
                         </div>

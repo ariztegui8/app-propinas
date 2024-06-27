@@ -1,3 +1,5 @@
+import { OrderActions } from "../reducers/order-reducer"
+
 const valuePropina = [
     {
         id: 'propina-1',
@@ -17,11 +19,11 @@ const valuePropina = [
 ]
 
 type FormPropinaProps = {
-    setPropina: React.Dispatch<React.SetStateAction<number>>
+    dispatch: React.Dispatch<OrderActions>
     propina: number
 }
 
-const FormPropina = ({setPropina, propina} : FormPropinaProps) => {
+const FormPropina = ({dispatch, propina} : FormPropinaProps) => {
   return (
     <div className="rounded-md shadow-md p-2 mb-4">
         <h2 className="font-semibold mb-2 text-center">Propina:</h2>
@@ -34,7 +36,7 @@ const FormPropina = ({setPropina, propina} : FormPropinaProps) => {
                         id={propi.id} 
                         value={propi.value} 
                         name="propina" 
-                        onChange={(e) => setPropina(+e.target.value)}
+                        onChange={(e) => dispatch({type: 'add-propina', payload: {value: +e.target.value}})}
                         checked={propi.value === propina}
                     />
                     <label htmlFor={propi.id}>{propi.label}</label>

@@ -1,14 +1,15 @@
+import { useReducer } from "react";
 import FormPropina from "./components/FormPropina";
 import MenuItem from "./components/MenuItem";
 import Navbar from "./components/Navbar";
 import OrderContents from "./components/OrderContents";
 import OrderTotals from "./components/OrderTotals";
 import { menuItems } from "./data/db";
-import useOrder from "./hooks/useOrder";
+import { initialState, orderReducer } from "./reducers/order-reducer";
 
 const App = () => {
 
-  const { order, propina, addItem, removeItem, setPropina, placeOrder } = useOrder()
+  const [state, dispatch] = useReducer(orderReducer, initialState)
 
 
   return (
@@ -22,31 +23,31 @@ const App = () => {
               <MenuItem
                 key={item.id}
                 item={item}
-                addItem={addItem}
+                dispatch={dispatch}
               />
             ))}
           </div>
         </div>
 
         <div>
-          {order.length === 0 ?
+          {state.order.length === 0 ?
             <p className="text-center text-xl font-semibold">La orden esta vacia</p>
             :
             <>
               <OrderContents
-                order={order}
-                removeItem={removeItem}
+                order={state.order}
+                dispatch={dispatch} 
               />
 
               <FormPropina
-                setPropina={setPropina}
-                propina={propina}
+                dispatch={dispatch}
+                propina={state.propina}
               />
 
               <OrderTotals
-                order={order}
-                propina={propina}
-                placeOrder={placeOrder}
+                order={state.order}
+                propina={state.propina}
+                dispatch={dispatch} 
               />
             </>
           }
